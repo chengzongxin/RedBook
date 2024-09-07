@@ -4,11 +4,13 @@ import { useLocalStore } from "mobx-react";
 // import HomeStore from "@/store/HomeStore";
 import HomeStore from "../../store/HomeStore";
 import { observer } from "mobx-react";
-
-const { width: SCREEN_WIDTH } = Dimensions.get("window");
-
 import icon_heart from "../../assets/images/icon_heart.png";
 import icon_heart_empty from "../../assets/images/icon_heart_empty.png";
+import FlowList from "@/components/flowlist/FlowList";
+import ResizeImage from "@/components/ResizeImage";
+
+
+const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
 // observer 监听store数据改变
 export default observer(() => {
@@ -17,6 +19,15 @@ export default observer(() => {
   useEffect(() => {
     store.requestHomeList();
   }, []);
+
+  const refreshNewData = () => {
+    store.resetPage()
+    store.requestHomeList()
+  }
+
+  const loadMoreData = () => {
+    store.requestHomeList()
+  }
 
   const renderItem = ({
     item,
@@ -27,7 +38,7 @@ export default observer(() => {
   }) => {
     return (
       <View style={styles.item}>
-        <Image style={styles.itemImg} source={{uri:item.image}} />
+        <ResizeImage uri={item.image} />
         <Text style={styles.itemTitle}>{item.title}</Text>
         <View style={styles.itemUser}>
           <Image style={styles.itemUserImg} source={{uri:item.avatarUrl}} />
@@ -39,14 +50,24 @@ export default observer(() => {
     );
   };
 
+  const Footer = () => {
+    return <Text style={styles.footer}>没有更多数据</Text>
+  }
+
   return (
     <View style={styles.container}>
-      <FlatList
+      <FlowList
         style={styles.list}
         data={store.homeList}
         renderItem={renderItem}
         numColumns={2}
         contentContainerStyle={styles.listContainer}
+        extraData={[store.refreshing]}
+        refreshing={store.refreshing} 
+        onRefresh={refreshNewData}
+        onEndReachedThreshold={0.2}
+        onEndReached={loadMoreData}
+        ListFooterComponent={<Footer />}
       />
     </View>
   );
@@ -73,11 +94,7 @@ const styles = StyleSheet.create({
     marginBottom: 6,
     borderRadius: 8,
     overflow: 'hidden',
-  },
-  itemImg: {
-    width:'100%',
-    height: 240,
-    resizeMode:'cover',
+    paddingBottom: 6,
   },
   itemTitle: {
     fontSize: 14,
@@ -111,5 +128,13 @@ const styles = StyleSheet.create({
     fontSize:14,
     color:'#999',
     marginLeft:4,
+  },
+  footer: {
+    width:'100%',
+    fontSize:14,
+    textAlign:'center',
+    textAlignVertical:'center',
+    color:'999',
+    marginVertical: 16,
   }
 });
