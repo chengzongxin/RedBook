@@ -8,7 +8,8 @@ export default function Index() {
 
   useEffect(()=>{
     setTimeout(() => {
-      router.replace('./(tabs)')
+      // router.replace('./(tabs)')
+      router.replace('/login')
     }, 1000);
   },[])
 

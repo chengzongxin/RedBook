@@ -10,25 +10,25 @@ import {
   Text,
 } from "react-native";
 import icon_tab_publish from "@/assets/images/icon_tab_publish.png";
-import {
-  launchImageLibrary,
-  ImagePickerResponse,
-} from "react-native-image-picker";
+// import {
+//   launchImageLibrary,
+//   ImagePickerResponse,
+// } from "react-native-image-picker";
 
 export default function TabLayout() {
   const RedBookTabBar = ({ state, descriptors, navigation }: any) => {
     const { routes, index } = state;
 
     const onPublishPress = async () => {
-      console.log('onPublishPress method', launchImageLibrary);
+      // console.log('onPublishPress method', launchImageLibrary);
 
-      launchImageLibrary({
-        mediaType: "photo",
-        quality: 1,
-        includeBase64: true,
-      } , (response) =>{
-        console.log("response:" + response)
-      })
+      // launchImageLibrary({
+      //   mediaType: "photo",
+      //   quality: 1,
+      //   includeBase64: true,
+      // } , (response) =>{
+      //   console.log("response:" + response)
+      // })
     };
 
     return (

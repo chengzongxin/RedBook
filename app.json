@@ -23,7 +23,8 @@
       "permissions": [
         "CAMERA",
         "WRITE_EXTERNAL_STORAGE"
-      ]
+      ],
+      "package": "com.chengzongxin.RedBook"
     },
     "web": {
       "bundler": "metro",

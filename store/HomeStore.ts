@@ -28,7 +28,11 @@ export default class HomeStore {
         page: this.page,
         size: SIZE,
       };
-      const { data } = await request("homeList", params);
+      console.log('start request');
+      
+      const { data } = await request("homeList", params).catch(e=>console.log('catcg e = ',e));
+
+      console.log('end request', data);
 
       if (data.length) {
         if (this.page === 1) {
